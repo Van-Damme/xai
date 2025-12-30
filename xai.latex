@@ -1,0 +1,155 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[ukrainian]{babel}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{sectsty}
+\usepackage{tocloft}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+
+\sectionfont{\centering\Large\bfseries}
+\subsectionfont{\large\bfseries}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Дослідження xAI}
+\lhead{30 грудня 2025 р.}
+\cfoot{\thepage}
+
+\title{Дослідження вендора великих мовних моделей: xAI}
+\author{}
+\date{30 грудня 2025 р.}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Словник термінів}
+
+\begin{itemize}
+    \item \textbf{Трансформер} — архітектура нейромережі для обробки послідовностей, основа LLM.
+    \item \textbf{RLHF (Reinforcement Learning from Human Feedback)} — навчання з підкріпленням на основі відгуків людей для покращення відповідей.
+    \item \textbf{MoE (Mixture of Experts)} — архітектура, де модель активує лише частину параметрів для ефективності (наприклад, 2 експерти на токен у Grok-1).
+    \item \textbf{Квантизація} — зменшення точності параметрів (наприклад, 8-бітна) для оптимізації інференсу.
+    \item \textbf{Контекстне вікно} — максимальна довжина вхідних даних (наприклад, 8K токенів у Grok-1, до 2M у Grok-4.1 Fast).
+    \item \textbf{Мультимодальність} — обробка тексту, зображень, аудіо тощо (Grok-4.1 підтримує voice agents).
+    \item \textbf{Агентні інструменти} — функції для автономних дій, як пошук, код-виконання, інтеграція з X.
+    \item \textbf{Токенізатор} — розбиття тексту на токени (SentencePiece у Grok-1 з 131K токенами).
+    \item \textbf{Rotary Embeddings (RoPE)} — позиційне кодування для довгих контекстів.
+    \item \textbf{API} — інтерфейс для розробників (наприклад, Grok Voice Agent API).
+\end{itemize}
+
+\section{Вступ: xAI як архітектор ШІ для розуміння Всесвіту}
+
+Компанія xAI заснована в липні 2023 року Ілоном Маском з метою ``розуміння справжньої природи Всесвіту'' через ШІ. xAI інтегрує штучний інтелект з екосистемою X (колишній Twitter), Tesla та SpaceX, фокусуючись на даних реального часу, швидкості та агентних можливостях.
+
+На відміну від Meta (open weights для Llama), xAI відкрила ваги лише для Grok-1, але пропонує потужні API для розробників. Компанія інвестує мільярди доларів, будує суперкомп'ютери (наприклад, Memphis Supercluster). 
+
+Переваги підходу: інтеграція з X для пошуку в реальному часі, voice agents та освітні ініціативи (партнерство з Ель-Сальвадором для 1 млн школярів). Станом на грудень 2025 року випущено Grok-4.1 — лідер у LMSYS та аудіо-бенчмарках.
+
+\section{Еволюція моделей xAI}
+
+Хронологічний огляд моделей:
+
+\begin{itemize}
+    \item \textbf{Grok-1 (2023)} — базова MoE-модель з 314B параметрів, тренована на даних X, фокус на гуморі та відповідях у реальному часі.
+    \item \textbf{Grok-1.5 (2024)} — покращення в кодуванні, математиці та довгому контексті.
+    \item \textbf{Grok-2 (2024)} — збільшена ефективність, інтеграція з X для пошуку.
+    \item \textbf{Grok-3 (лютий 2025)} — доступ для преміум-користувачів, фокус на reasoning та мультимодальності.
+    \item \textbf{Grok-3.5 (2025)} — покращення в agentic tasks.
+    \item \textbf{Grok-4 (липень 2025)} — революційний стрибок у reasoning.
+    \item \textbf{Grok-4.1 (листопад 2025)} — швидка версія з 2M контекстом, voice agents, інтеграція з Tesla.
+    \item \textbf{Grok-5} — очікується в Q1 2026, подвоєні параметри.
+\end{itemize}
+
+Еволюція: від базового чат-бота до мультимодальних агентів з пошуком у реальному часі (X/web), voice та інструментами.
+
+\section{Карта моделей}
+
+\begin{longtable}{|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\textbf{Модель} & \textbf{Розмір (параметрів)} & \textbf{Тип/Архітектура} & \textbf{Дата релізу} & \textbf{Контекстне вікно} & \textbf{Токенізатор} & \textbf{Ліцензія/Доступ} & \textbf{Особливості} \\ \hline
+\endhead
+
+Grok-1 & 314B (MoE, 2 експерти/токен) & MoE, 64 шари & Листопад 2023 & 8K токенів & SentencePiece (131K токенів) & Apache 2.0 (відкриті ваги) & RoPE, 8-біт квантизація, JAX код \\ \hline
+Grok-1.5 & Невідомо (покращена) & MoE & Березень 2024 & 128K & Невідомо & API-доступ & Покращений код/математика \\ \hline
+Grok-2 & Невідомо & MoE & Серпень 2024 & 128K+ & Невідомо & API & Інтеграція з X \\ \hline
+Grok-3 & Невідомо & MoE & Лютий 2025 & 512K+ & Невідомо & Преміум & Reasoning, мультимодальність \\ \hline
+Grok-3.5 & Невідомо & MoE & 2025 & Невідомо & Невідомо & API & Agentic tasks \\ \hline
+Grok-4 & Невідомо (значно більший) & MoE & Липень 2025 & 1M+ & Невідомо & API & Advanced reasoning \\ \hline
+Grok-4.1 & Невідомо & MoE, RL для довгого контексту & Листопад 2025 & 2M токенів & Невідомо & API (\$0.2/1M вхід) & Voice agents, \#1 у LMSYS \\ \hline
+Grok-4.1 Fast & Невідомо & Оптимізована & Листопад 2025 & 2M & Невідомо & Безкоштовно 2 тижні & Agent Tools API, 5x швидше \\ \hline
+
+\caption{Порівняльна таблиця моделей xAI}
+\end{longtable}
+
+\section{Ключові персони}
+
+\begin{itemize}
+    \item \textbf{Ілон Маск} — засновник та CEO, візіонер, інтегрує xAI з Tesla/X.
+    \item \textbf{Ігор Бабушкін} — головний інженер, екс-DeepMind.
+    \item Команда: ~100 інженерів з Google, OpenAI, DeepMind (наприклад, Грег Янг, Тобі Поулінгер).
+\end{itemize}
+
+xAI активно приваблює таланти з конкурентів.
+
+\section{Бенчмарки та порівняння}
+
+\begin{itemize}
+    \item Grok-4: 65 балів (другий після GPT-5), лідер LMSYS.
+    \item Grok-4.1: \#1 на Big Bench Audio, 5x швидше OpenAI у voice.
+    \item Перевершує конкурентів у MMLU, MATH, кодингу, agentic search.
+    \item Перевага в pronunciation, accent, prosody.
+\end{itemize}
+
+\section{Інструменти та підходи}
+
+\begin{itemize}
+    \item \textbf{Репозиторії}: \url{https://github.com/xai-org/grok-1} (JAX код для Grok-1, Apache 2.0).
+    \item \textbf{API}: Grok Voice Agent API (\$0.05/хв), підтримує десятки мов, інструменти (X/web search, code execution).
+    \item \textbf{Agent Tools API}: автономний браузинг, пошук X, код-виконання (безкоштовно 2 тижні в листопаді 2025).
+    \item \textbf{Інтеграції}: Tesla (voice в авто), X (real-time data), освіта.
+    \item \textbf{Оптимізації}: Long-horizon RL, in-house voice stack.
+\end{itemize}
+
+\section{Висновки}
+
+xAI демократизує ШІ через інтеграцію з реальними даними платформи X та агентні можливості, фокусуючись на швидкості та практичності. Еволюція: від відкритої Grok-1 до мультимодальних Grok-4.1 з voice та tools. 
+
+Обмеження: не всі ваги відкриті, сильна залежність від екосистеми Ілона Маска. Компанія лідирує в voice/audio бенчмарках.
+
+\section{Джерела}
+
+\begin{enumerate}
+    \item \url{https://x.ai/news/grok-4-1}
+    \item \url{https://vertu.com/lifestyle/the-ai-model-race-reaches-singularity-speed}
+    \item \url{https://doit.software/blog/grok-statistics}
+    \item \url{https://www.nextbigfuture.com/2025/11/xai-releases-grok-4-1-and-it-tops-the-lmarena-leaderboard.html}
+    \item \url{https://blog.promptlayer.com/grok-5-what-we-expect}
+    \item \url{https://originality.ai/blog/grok-ai-statistics}
+    \item \url{https://www.datastudios.org/post/grok-4-vs-previous-models-...}
+    \item \url{https://smythos.com/developers/ai-models/whats-new-in-grok-4-release-facts-benchmarks-and-value}
+    \item \url{https://magai.co/grok-4-release}
+    \item \url{https://artsmart.ai/blog/grok-ai-statistics}
+    \item GitHub: \url{https://github.com/xai-org/grok-1}
+    \item Анонси та пости від @xai на платформі X (2024--2025 рр.).
+\end{enumerate}
+
+\end{document}
